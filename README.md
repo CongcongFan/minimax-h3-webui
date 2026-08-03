@@ -42,6 +42,17 @@ decision** — the summary above is provided in good faith but is not legal
 advice, and this project's authors are not responsible for how you use the
 model.
 
+**Why is it okay to publish this UI's source code, then?** This repository
+contains no MiniMax H3 weights, no MiniMax code, and no MiniMax documentation —
+only independently written client software that happens to know how to talk
+to that model over an API, if you separately supply it. The license's own
+Section I.11 defines a "Model Derivative" as a modification of the model, a
+model trained from its weights or Outputs, or "any other machine learning
+model" built from it — and separately states that Outputs are not Model
+Derivatives either. A generic UI is neither. This reasoning is also recorded
+in [NOTICE](NOTICE); it is not legal advice, and if your use case is anything
+but casual, get your own read on it.
+
 ---
 
 ## What you need
@@ -92,8 +103,8 @@ anything for you.
 ## Install and run
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/h3-studio.git
-cd h3-studio
+git clone https://github.com/onigirikiller/minimax-h3-webui.git
+cd minimax-h3-webui
 pip install -r requirements.txt
 ```
 

@@ -24,7 +24,7 @@ MiniMax, and your use of it is governed by the MiniMax H3 Community License
 Agreement rather than by this project's license.
 
     MiniMax H3 is licensed under the MiniMax H3 Community License Agreement,
-    Copyright (c) 2026 MiniMax
+    Copyright © 2026 MiniMax. All Rights Reserved.
 
 That agreement is not available worldwide. At the time of writing it excludes
 the European Union, the United Kingdom, the Republic of Korea, and the United
@@ -34,6 +34,13 @@ generated outputs outside that territory. Read it in full, and check whether
 the terms have changed, before you obtain or use the model:
 
     https://huggingface.co/MiniMaxAI/MiniMax-H3
+
+This project's code is not a "Model Derivative" under that agreement: it is
+independently written software that talks to a model over an API and neither
+modifies MiniMax H3, is trained on it, nor transfers its weights or behavior
+into another model. That agreement's own Section I.11 defines "Model
+Derivatives" in those terms and separately confirms that Outputs (what the
+model produces) are not Model Derivatives either.
 
 --------------------------------------------------------------------------
 Third-party software
