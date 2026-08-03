@@ -19,9 +19,10 @@ About the MiniMax H3 model
 
 This project is an independent user interface. It contains no model weights,
 no MiniMax source code, and no MiniMax documentation, and it never downloads
-model weights. You obtain the MiniMax H3 model separately, directly from
-MiniMax, and your use of it is governed by the MiniMax H3 Community License
-Agreement rather than by this project's license.
+model weights. You obtain compatible MiniMax H3 model files separately, from
+their respective authorized distribution source, and your use of them is
+governed by the MiniMax H3 Community License Agreement rather than by this
+project's license.
 
     MiniMax H3 is licensed under the MiniMax H3 Community License Agreement,
     Copyright © 2026 MiniMax. All Rights Reserved.
@@ -35,12 +36,12 @@ the terms have changed, before you obtain or use the model:
 
     https://huggingface.co/MiniMaxAI/MiniMax-H3
 
-This project's code is not a "Model Derivative" under that agreement: it is
-independently written software that talks to a model over an API and neither
-modifies MiniMax H3, is trained on it, nor transfers its weights or behavior
-into another model. That agreement's own Section I.11 defines "Model
-Derivatives" in those terms and separately confirms that Outputs (what the
-model produces) are not Model Derivatives either.
+This project's code communicates with MiniMax H3 over an API; it does not
+modify the model, train on it, or transfer its weights or behavior into
+another model. Whether or how the agreement's definitions (including its
+Section I.11 definition of "Model Derivatives") apply to a given use of this
+software is for you to review in the agreement itself - the paragraph above
+is not a legal determination.
 
 --------------------------------------------------------------------------
 Third-party software
@@ -61,3 +62,12 @@ Clip chaining and joining shell out to ffmpeg if it is installed on your
 system. ffmpeg is not bundled with this project.
 
     FFmpeg - https://ffmpeg.org/ - LGPL-2.1+/GPL-2+ depending on build
+
+Parts of the MiniMax H3 workflow structure and model configuration in this
+project (which ComfyUI nodes to use and how to wire them for MiniMax H3
+generation) were derived from or informed by the example workflows in
+Comfy-Org/workflow_templates:
+
+    Comfy-Org/workflow_templates
+    Copyright (c) 2023-present Comfy Org
+    Licensed under the MIT License.

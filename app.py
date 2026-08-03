@@ -707,9 +707,34 @@ def main() -> int:
                         help="Starting interface language; switchable in the UI.")
     parser.add_argument("--listen", action="store_true",
                         help="Bind on the local network, not just this machine.")
-    parser.add_argument("--share", action="store_true", default=config["share"],
-                        help="Expose a temporary public Gradio link.")
+    parser.add_argument(
+        "--share", action="store_true", default=config["share"],
+        help=(
+            "Expose a temporary public Gradio URL that anyone on the internet "
+            "can reach - not just your local network. WARNING: this app has no "
+            "login, no region checks, and no content moderation built in, and "
+            "the MiniMax H3 license imposes real obligations (safeguards, "
+            "territorial limits, disclosures) on anyone who lets third parties "
+            "generate Outputs through it. Making the model reachable like this "
+            "without meeting those obligations yourself is on you. Not "
+            "recommended for ordinary personal/local use."
+        ),
+    )
     args = parser.parse_args()
+
+    if args.share:
+        print(
+            "\n"
+            "[warning] --share will publish a public URL that anyone on the\n"
+            "internet can open - this app has no login, no region checks, and\n"
+            "no content moderation. If people outside the MiniMax H3 license's\n"
+            "Applicable Territory can reach it, or if it is used as a public\n"
+            "Hosted Service, you - not this project - are responsible for\n"
+            "meeting the license's safeguard and territorial obligations.\n"
+            "Prefer running locally (no --share) unless you understand and\n"
+            "accept that.\n",
+            file=sys.stderr,
+        )
 
     client = ComfyClient(args.comfy_url)
     if not client.is_alive():

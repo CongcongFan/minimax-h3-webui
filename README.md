@@ -53,16 +53,14 @@ H3 license, I'd genuinely appreciate it if you could reach out** at
 **onigirikiller@proton.me** — sorry for the trouble, and I'll look into it and
 fix it as soon as I've confirmed it.
 
-**Why is it okay to publish this UI's source code, then?** This repository
-contains no MiniMax H3 weights, no MiniMax code, and no MiniMax documentation —
-only independently written client software that happens to know how to talk
-to that model over an API, if you separately supply it. The license's own
-Section I.11 defines a "Model Derivative" as a modification of the model, a
-model trained from its weights or Outputs, or "any other machine learning
-model" built from it — and separately states that Outputs are not Model
-Derivatives either. A generic UI is neither. This reasoning is also recorded
-in [NOTICE](NOTICE); it is not legal advice, and if your use case is anything
-but casual, get your own read on it.
+**What this repository actually contains:** no MiniMax H3 model weights and no
+MiniMax source code, and it does not download them. This project is
+independently developed client software that communicates with a separately
+installed ComfyUI instance over HTTP; it becomes MiniMax-H3-capable only once
+you supply weights you obtained yourself. Whether that makes a given use of
+this code compliant with the MiniMax H3 license is for you to review — see
+[NOTICE](NOTICE) for the relevant license language, but form your own
+judgment, especially for anything beyond casual personal use.
 
 ---
 
@@ -137,6 +135,22 @@ python app.py --listen                         # reachable from your LAN
 ```
 
 Settings can also live in `config.json` (copy `config.example.json`).
+
+#### ⚠️ `--share` publishes a public URL — think before you use it
+
+There is also a `--share` flag, off by default, that asks Gradio to publish a
+temporary public URL: not just your LAN, but anyone on the internet. This app
+has **no login, no region checks, and no content moderation** built in.
+
+If you turn it on, you are the one exposing MiniMax H3 to arbitrary third
+parties - which is squarely the territory the MiniMax H3 license's Hosted
+Service and safeguard obligations are about, and it becomes much harder to
+keep usage inside the license's Applicable Territory once anyone with the
+link can open it. **This is not recommended for ordinary personal/local use.**
+If you have a real reason to use it, read the license sections on Hosted
+Services and use restrictions first, and make sure you can actually meet
+them. The app prints a warning to the console when `--share` is used, but
+does not block or ask for confirmation before starting.
 
 ## Using it
 
