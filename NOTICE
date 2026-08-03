@@ -68,6 +68,9 @@ project (which ComfyUI nodes to use and how to wire them for MiniMax H3
 generation) were derived from or informed by the example workflows in
 Comfy-Org/workflow_templates:
 
-    Comfy-Org/workflow_templates
+    Comfy-Org/workflow_templates - https://github.com/Comfy-Org/workflow_templates
     Copyright (c) 2023-present Comfy Org
     Licensed under the MIT License.
+
+The full, unmodified text of that license is included in this repository at
+THIRD_PARTY_LICENSES/Comfy-Org-workflow_templates-MIT.txt.
