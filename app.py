@@ -31,6 +31,7 @@ from h3_backend import (
     snap_length,
 )
 from h3_queue import Job, QueueManager
+from h3_scenebatch import SceneBatchError, parse_scene_batch
 
 APP_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = APP_DIR / "config.json"
@@ -130,6 +131,18 @@ T = {
             "for you."
         ),
         "failed": "failed",
+        "batch_title": "📥 Bulk import (JSON) — plus-alpha, optional",
+        "batch_help": (
+            "Queue a whole multi-scene sequence at once from a JSON document - "
+            "handy for having an LLM write the scenes for you. This is an extra, "
+            "not required for normal use. Schema and a full example are in the "
+            "README."
+        ),
+        "batch_file": "Scene batch JSON file",
+        "batch_text": "...or paste JSON here instead",
+        "batch_button": "Import & queue",
+        "err_batch_empty": "Paste some JSON or choose a file first.",
+        "batch_queued": "Queued {n} scene(s).",
     },
     "ja": {
         "subtitle": "MiniMax H3 動画生成UI",
@@ -211,6 +224,17 @@ T = {
             "しません。"
         ),
         "failed": "失敗",
+        "batch_title": "📥 一括インポート(JSON) — プラスアルファ機能・任意",
+        "batch_help": (
+            "複数シーンをまとめてJSONで記述してキューに一括投入できます。LLMに"
+            "シーン構成を書かせる用途向けの、通常操作には不要な追加機能です。"
+            "スキーマと完全なサンプルはREADMEにあります。"
+        ),
+        "batch_file": "シーンバッチJSONファイル",
+        "batch_text": "…またはここに直接JSONを貼り付け",
+        "batch_button": "インポートしてキューに追加",
+        "err_batch_empty": "先にJSONを貼り付けるか、ファイルを選択してください。",
+        "batch_queued": "{n} 件のシーンをキューに追加しました。",
     },
 }
 
@@ -535,6 +559,20 @@ def build_ui(manager: QueueManager, client: ComfyClient, lang: str) -> gr.Blocks
                     label="joined",
                 )
 
+                with gr.Accordion(t["batch_title"], open=False) as batch_box:
+                    tr(batch_box, label="batch_title")
+                    tr(gr.Markdown(t["batch_help"]), value="batch_help")
+                    batch_file = tr(
+                        gr.File(label=t["batch_file"], file_types=[".json"]),
+                        label="batch_file",
+                    )
+                    batch_text = tr(
+                        gr.Textbox(label=t["batch_text"], lines=6, max_lines=20),
+                        label="batch_text",
+                    )
+                    batch_btn = tr(gr.Button(t["batch_button"]), value="batch_button")
+                    batch_status = gr.Markdown()
+
         # ---------------- behaviour ----------------
 
         duration.change(
@@ -668,6 +706,34 @@ def build_ui(manager: QueueManager, client: ComfyClient, lang: str) -> gr.Blocks
             return gr.update(value=str(path), visible=True)
 
         join_btn.click(do_join, lang_state, joined_video)
+
+        def do_batch_import(file_path: str | None, pasted: str, code: str):
+            tt = T.get(code, T["en"])
+            if file_path:
+                text = Path(file_path).read_text(encoding="utf-8")
+                base_dir = Path(file_path).resolve().parent
+            elif (pasted or "").strip():
+                text = pasted
+                base_dir = Path.cwd()
+            else:
+                raise gr.Error(tt["err_batch_empty"])
+
+            try:
+                jobs, notes = parse_scene_batch(
+                    text, base_dir, diffusion_opts, encoder_opts, vae_opts,
+                    samplers, schedulers,
+                )
+            except SceneBatchError as exc:
+                return f"```\n{exc}\n```"
+
+            manager.add_batch(jobs)
+            lines = [tt["batch_queued"].format(n=len(jobs))]
+            lines.extend(f"- {note}" for note in notes)
+            return "\n".join(lines)
+
+        batch_btn.click(
+            do_batch_import, [batch_file, batch_text, lang_state], batch_status
+        )
 
         # ---------------- language switching ----------------
 

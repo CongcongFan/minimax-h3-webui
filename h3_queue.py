@@ -105,6 +105,13 @@ class QueueManager:
         self._wake.set()
         return job
 
+    def add_batch(self, jobs: list[Job]) -> list[Job]:
+        """Queue several jobs at once, preserving their order."""
+        with self._lock:
+            self._jobs.extend(jobs)
+        self._wake.set()
+        return jobs
+
     def jobs(self) -> list[Job]:
         with self._lock:
             return list(self._jobs)

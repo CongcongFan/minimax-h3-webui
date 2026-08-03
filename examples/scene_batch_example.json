@@ -1,0 +1,23 @@
+{
+  "defaults": {
+    "resolution": "864x480",
+    "steps": 20,
+    "sampler": "res_multistep",
+    "scheduler": "simple"
+  },
+  "scenes": [
+    {
+      "label": "scene1-turn",
+      "mode": "i2v",
+      "prompt": "Japanese anime-style cinematic scene, moody blue-and-neon night palette, heavy atmospheric rain. A teenage boy stands at a rooftop's edge, his necktie whipping in the wind, gazing out over the glowing city skyline. In the lit stairwell doorway behind him stands the faint, translucent figure of a girl, silent and still, watching him.\n\nTimeline:\n[0.0-3.0s] Rain intensifies; he keeps staring outward, unaware of the presence behind him. Slow push-in.\n[3.0-6.0s] The stairwell light flickers; his eyes narrow, sensing something.\n[6.0-9.0s] He slowly turns his head over his shoulder toward the doorway.\n[9.0-12.0s] His body follows; the girl tilts her head, the light around her warming from cold white to soft gold.\n[12.0-15.0s] He has turned three-quarters toward her; she lifts one hand toward him. Hold on this suspended moment.\n\nCamera: one continuous slow push-in, no cuts.\nAudio: heavy rain, distant thunder, a single sustained piano note.\nNo 3D look, flat cel-shaded anime, no text overlays.",
+      "duration_sec": 15,
+      "start_image": "scene1_start.png"
+    },
+    {
+      "label": "scene2-reunion",
+      "mode": "i2v",
+      "prompt": "Continuing directly from the previous shot, same two characters and setting. The boy finishes turning to face the girl; a gust of wind sweeps the rooftop as heavy rain begins to slow unnaturally, droplets hanging in midair.\n\nTimeline:\n[0.0-4.0s] He steps toward the doorway; she steps out to meet him, her form growing warmer and more solid.\n[4.0-9.0s] The distant skyline softens into warm white-gold light; the suspended raindrops drift slowly upward.\n[9.0-12.0s] The two reach toward each other, fingertips almost touching; a soft warm light blooms outward.\n[12.0-15.0s] Wide final shot: the skyline fades to soft white-gold light; the two figures soften and dissolve into it together, calm and at peace.\n\nCamera: continues the same slow push-in into a gentle pull-back for the final reveal.\nAudio: rain fades to silence; the piano note resolves into a warm major chord swell.\nNo 3D look, flat cel-shaded anime, consistent with the previous shot.",
+      "duration_sec": 15
+    }
+  ]
+}

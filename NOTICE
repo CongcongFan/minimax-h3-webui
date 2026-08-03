@@ -13,6 +13,13 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 
+The Apache-2.0 license above covers H3 Studio's own code only. Every model,
+library, and tool this project uses or talks to - MiniMax H3, ComfyUI, Gradio,
+ffmpeg, Comfy-Org/workflow_templates, and anything else named below - is
+governed by its own license, not by this one. Where anything in this file is
+just a summary, that component's own license is what actually applies; if the
+two ever disagree, the component's own license wins.
+
 --------------------------------------------------------------------------
 About the MiniMax H3 model
 --------------------------------------------------------------------------

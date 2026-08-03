@@ -198,6 +198,67 @@ are done, **Join all finished clips** concatenates them into one file.
 Two 15-second clips chained this way join seamlessly, which is the practical
 route to a 30-second piece.
 
+### Bulk import from JSON (optional, LLM-friendly)
+
+This is a plus-alpha feature tucked into a collapsed "📥 Bulk import (JSON)"
+section next to the queue — it doesn't change or clutter the normal
+single-clip workflow above.
+
+The idea: instead of filling in the form once per clip, describe a whole
+multi-scene sequence as one JSON document and hand it straight to the queue.
+This is a good fit for having an LLM write the scene list for you — paste its
+output straight into the text box, or save it as a file and upload that.
+
+```json
+{
+  "defaults": { "resolution": "864x480", "steps": 20 },
+  "scenes": [
+    {
+      "label": "scene1-turn",
+      "mode": "i2v",
+      "prompt": "A young man on a rain-soaked rooftop slowly turns...",
+      "duration_sec": 15,
+      "start_image": "assets/rooftop.png"
+    },
+    {
+      "label": "scene2-reunion",
+      "mode": "i2v",
+      "prompt": "He finishes turning to face her, they reach out...",
+      "duration_sec": 15
+    }
+  ]
+}
+```
+
+Each scene needs only `mode` (`t2v` / `i2v` / `r2v`), `prompt`, and
+`duration_sec`. Everything else falls back sensibly:
+
+- **`resolution`** — a `"1344x768"`-style string, or omit it to use
+  `defaults.resolution` or the app default. Snapped to a multiple of 32
+  either way.
+- **`start_image` / `end_image`** (`i2v`) — local file paths. Relative paths
+  resolve against the uploaded JSON file's own folder, or against the
+  current working directory when you paste JSON instead of uploading a file.
+- **`chain_from_previous`** (`i2v`) — if you leave out `start_image`, this
+  defaults to `true` automatically: the scene continues from the last frame
+  of whichever clip finishes right before it in the queue, exactly like the
+  checkbox on the Image to Video tab. Set it to `false` explicitly if a
+  scene genuinely has no start frame and isn't meant to chain.
+- **`ref_images` / `ref_video` / `ref_audio`** (`r2v`) — local file paths (a
+  list for `ref_images`); at least one is required for an `r2v` scene.
+- **`steps` / `sampler` / `scheduler` / `seed`** — fall back to `defaults`,
+  then to the app's normal defaults (20 / `res_multistep` / `simple` / random).
+- **`diffusion_model` / `text_encoder` / `video_vae` / `audio_vae`** — only
+  needed if you want to force a specific file; otherwise the right checkpoint
+  (`fl2va` for `t2v`/`i2v`, `ref2va` for `r2v`) is picked automatically from
+  whatever ComfyUI has installed, the same way the dropdowns do.
+
+The whole document is validated before anything is queued — if there's a
+problem, every issue found is listed at once (wrong `mode`, a missing file, an
+unknown sampler, etc.) so you can fix a bad JSON in one pass rather than
+discovering issues one at a time. A worked example lives at
+[`examples/scene_batch_example.json`](examples/scene_batch_example.json).
+
 ## Known limits
 
 Measured on an RTX 3060 (12 GB VRAM) with 32 GB system RAM:
@@ -241,9 +302,10 @@ model weights.
 
 ## Licence
 
-H3 Studio is released under the [Apache License 2.0](LICENSE). See
-[NOTICE](NOTICE) for third-party attributions.
+H3 Studio's own code is released under the [Apache License 2.0](LICENSE).
 
-This licence covers **this application only**. The MiniMax H3 model is licensed
-separately by MiniMax under terms that restrict where it may be used — see the
-warning at the top of this file.
+That covers **this application's code only**. MiniMax H3, ComfyUI, Gradio,
+ffmpeg, and everything else this project uses or talks to are each governed
+by their own license, not by this one — see [NOTICE](NOTICE) for the specific
+terms and where to find the full text of each. If anything here ever seems to
+say otherwise, the component's own license is what actually applies.
