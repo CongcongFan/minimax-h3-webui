@@ -1,0 +1,3 @@
+# H3 Studio only needs a web UI framework; everything else is in the standard
+# library. ComfyUI is a separate program you run yourself, reached over HTTP.
+gradio>=4.39

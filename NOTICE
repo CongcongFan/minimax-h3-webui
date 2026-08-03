@@ -1,0 +1,56 @@
+H3 Studio
+Copyright 2026 H3 Studio contributors
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+
+--------------------------------------------------------------------------
+About the MiniMax H3 model
+--------------------------------------------------------------------------
+
+This project is an independent user interface. It contains no model weights,
+no MiniMax source code, and no MiniMax documentation, and it never downloads
+model weights. You obtain the MiniMax H3 model separately, directly from
+MiniMax, and your use of it is governed by the MiniMax H3 Community License
+Agreement rather than by this project's license.
+
+    MiniMax H3 is licensed under the MiniMax H3 Community License Agreement,
+    Copyright (c) 2026 MiniMax
+
+That agreement is not available worldwide. At the time of writing it excludes
+the European Union, the United Kingdom, the Republic of Korea, and the United
+States of America from its Applicable Territory, and it restricts use,
+reproduction, modification, distribution, and display of the model and of its
+generated outputs outside that territory. Read it in full, and check whether
+the terms have changed, before you obtain or use the model:
+
+    https://huggingface.co/MiniMaxAI/MiniMax-H3
+
+--------------------------------------------------------------------------
+Third-party software
+--------------------------------------------------------------------------
+
+H3 Studio talks to ComfyUI over its HTTP API and does not import, link
+against, or bundle any ComfyUI code. ComfyUI is a separate program, licensed
+under the GNU General Public License v3.0, which you install and run yourself.
+
+    ComfyUI - https://github.com/comfyanonymous/ComfyUI - GPL-3.0
+
+The user interface is built with Gradio, licensed under the Apache License 2.0
+and installed as an ordinary dependency.
+
+    Gradio - https://github.com/gradio-app/gradio - Apache-2.0
+
+Clip chaining and joining shell out to ffmpeg if it is installed on your
+system. ffmpeg is not bundled with this project.
+
+    FFmpeg - https://ffmpeg.org/ - LGPL-2.1+/GPL-2+ depending on build

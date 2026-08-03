@@ -1,0 +1,32 @@
+# Local settings (copy config.example.json and edit)
+config.json
+
+# Generated video and working files
+outputs/
+*.mp4
+*.webm
+*.webp
+
+# Never commit model weights
+*.safetensors
+*.ckpt
+*.pt
+*.bin
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Gradio
+.gradio/
+flagged/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
