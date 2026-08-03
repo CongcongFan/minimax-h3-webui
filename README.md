@@ -42,11 +42,16 @@ decision** — the summary above is provided in good faith but is not legal
 advice, and this project's authors are not responsible for how you use the
 model.
 
-**Comply with the MiniMax H3 license.** Using this software does not exempt
-you from any part of the MiniMax H3 Community License Agreement — you are
-responsible for your own compliance, including the territorial restrictions
-above. If you believe this project has a licensing problem, please contact
-**onigirikiller@proton.me** and it will be looked into.
+**Please comply with the MiniMax H3 license.** Using this software does not
+exempt you from any part of the MiniMax H3 Community License Agreement — you
+are responsible for your own compliance, including the territorial
+restrictions above.
+
+I've done my best to get this right, but I could easily have missed
+something. **If you notice anything here that doesn't comply with the MiniMax
+H3 license, I'd genuinely appreciate it if you could reach out** at
+**onigirikiller@proton.me** — sorry for the trouble, and I'll look into it and
+fix it as soon as I've confirmed it.
 
 **Why is it okay to publish this UI's source code, then?** This repository
 contains no MiniMax H3 weights, no MiniMax code, and no MiniMax documentation —
