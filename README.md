@@ -300,6 +300,14 @@ H3 Studio builds ComfyUI API workflow graphs and submits them over HTTP. It
 does not import, link against, or bundle any ComfyUI code, and it holds no
 model weights.
 
+**Network behaviour**: by default the UI only binds to `127.0.0.1` - nothing
+is reachable outside your machine unless you pass `--listen` (your LAN) or
+`--share` (a public URL, see the warning above). Gradio itself normally sends
+small, anonymous startup telemetry (its own version, what component types
+your app uses - never your prompts, files, or generated video) to
+`api.gradio.app`; H3 Studio turns this off (`analytics_enabled=False`), so no
+such requests are made at all.
+
 ## Licence
 
 H3 Studio's own code is released under the [Apache License 2.0](LICENSE).

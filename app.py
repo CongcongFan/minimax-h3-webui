@@ -311,7 +311,9 @@ def build_ui(manager: QueueManager, client: ComfyClient, lang: str) -> gr.Blocks
 
     default_duration = 5.0
 
-    with gr.Blocks(title="H3 Studio", theme=gr.themes.Soft()) as demo:
+    with gr.Blocks(
+        title="H3 Studio", theme=gr.themes.Soft(), analytics_enabled=False
+    ) as demo:
         lang_state = gr.State(lang)
 
         with gr.Row():
