@@ -137,6 +137,7 @@ export default function App() {
   const [pendingImportAfterCreate, setPendingImportAfterCreate] = useState(false);
   const [gpuConfirmOpen, setGpuConfirmOpen] = useState(false);
   const [apiKey, setApiKey] = useState("");
+  const [hasSavedRunPodKey, setHasSavedRunPodKey] = useState(false);
   const [runpodConnected, setRunpodConnected] = useState(false);
   const [connectionReport, setConnectionReport] = useState("");
   const [busy, setBusy] = useState(false);
@@ -289,8 +290,8 @@ export default function App() {
   useEffect(() => {
     if (!settingsOpen || !isTauriRuntime()) return;
     invoke<boolean>("has_secret", { account: "runpod-api-key" })
-      .then(setRunpodConnected)
-      .catch(() => setRunpodConnected(false));
+      .then(setHasSavedRunPodKey)
+      .catch(() => setHasSavedRunPodKey(false));
   }, [settingsOpen]);
 
   useEffect(() => {
@@ -713,8 +714,9 @@ export default function App() {
       setBusy(true);
       if (apiKey.trim()) {
         await invoke("set_secret", { account: "runpod-api-key", secret: apiKey.trim() });
+        setHasSavedRunPodKey(true);
         setApiKey("");
-      } else if (!runpodConnected) {
+      } else if (!hasSavedRunPodKey) {
         throw new Error("请输入 RunPod API Key");
       }
       const report = await invoke<{
@@ -906,8 +908,8 @@ export default function App() {
           <section className="settings-modal" onMouseDown={(event) => event.stopPropagation()}>
             <header><div><small>CLOUD CONTROL</small><h2>连接 RunPod</h2></div><button onClick={() => setSettingsOpen(false)}><X size={18} /></button></header>
             <div className="settings-grid">
-              <label className="full">RunPod 专用 API Key<input type="password" value={apiKey} onChange={(event) => setApiKey(event.target.value)} placeholder={runpodConnected ? "已安全保存在 macOS 钥匙串；留空可直接复测" : "只保存在这台 Mac 的钥匙串"} /></label>
-              <div className={`full connection-state ${runpodConnected ? "is-connected" : ""}`}><Cloud size={16} /><span><strong>{runpodConnected ? "已保存本地密钥" : "尚未连接"}</strong><small>{connectionReport || "保存后会验证余额读取、GPU 报价和 Pod 管理权限"}</small></span></div>
+              <label className="full">RunPod 专用 API Key<input type="password" value={apiKey} onChange={(event) => setApiKey(event.target.value)} placeholder={hasSavedRunPodKey ? "已安全保存在 macOS 钥匙串；留空可直接复测" : "只保存在这台 Mac 的钥匙串"} /></label>
+              <div className={`full connection-state ${runpodConnected ? "is-connected" : ""}`}><Cloud size={16} /><span><strong>{runpodConnected ? "连接正常" : hasSavedRunPodKey ? "密钥已保存，等待复测" : "尚未连接"}</strong><small>{connectionReport || "保存后会验证余额读取、GPU 报价和 Pod 管理权限"}</small></span></div>
               <label>空闲自动销毁（分钟）<input type="number" value={project.settings.idleTerminateMinutes} onChange={(event) => setProject((current) => ({ ...current, settings: { ...current.settings, idleTerminateMinutes: Math.max(1, Number(event.target.value)) } }))} /></label>
               <label>会话费用软提醒（USD）<input type="number" step="0.5" value={project.settings.sessionSoftBudgetUsd} onChange={(event) => setProject((current) => ({ ...current, settings: { ...current.settings, sessionSoftBudgetUsd: Math.max(0, Number(event.target.value)) } }))} /></label>
               <label>单任务超时（分钟）<input type="number" value={project.settings.jobTimeoutMinutes} onChange={(event) => setProject((current) => ({ ...current, settings: { ...current.settings, jobTimeoutMinutes: Math.max(5, Number(event.target.value)) } }))} /></label>
@@ -915,7 +917,7 @@ export default function App() {
               <label className="full toggle notification-toggle"><input type="checkbox" checked={project.settings.notificationsEnabled} onChange={(event) => void setNotifications(event.target.checked)} /><span />任务完成、失败和 GPU 自动关闭时发送系统通知</label>
             </div>
             <div className="warning"><AlertTriangle size={16} /><span>仅使用澳洲、加拿大、日本、冰岛或挪威。空闲 30 分钟销毁，RunPod 另有 3 小时强制删除保护。</span></div>
-            <footer><button className="button button--quiet" onClick={() => setSettingsOpen(false)}>完成</button><button className="button button--primary" disabled={busy} onClick={saveRunPodKey}>{busy ? <LoaderCircle size={14} className="spin" /> : <Cloud size={14} />}{runpodConnected && !apiKey.trim() ? "测试已有连接" : "保存并测试"}</button></footer>
+            <footer><button className="button button--quiet" onClick={() => setSettingsOpen(false)}>完成</button><button className="button button--primary" disabled={busy} onClick={saveRunPodKey}>{busy ? <LoaderCircle size={14} className="spin" /> : <Cloud size={14} />}{hasSavedRunPodKey && !apiKey.trim() ? "测试已有密钥" : "保存并测试"}</button></footer>
           </section>
         </div>
       )}
