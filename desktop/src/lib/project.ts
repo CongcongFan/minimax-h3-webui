@@ -2,13 +2,15 @@ import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import type { Edge } from "@xyflow/react";
 import type { H3CanvasNode, H3Project, JobSnapshot, ProjectAsset } from "../types";
 
+export const DEFAULT_RUNPOD_IMAGE = "ghcr.io/congcongfan/h3-production-worker@sha256:405dfb1853821a5f47726fb12db306a38eb802b1e8d9223381aaeb8b30d31e78";
+
 export const DEFAULT_SETTINGS: H3Project["settings"] = {
   idleTerminateMinutes: 30,
   sessionSoftBudgetUsd: 2,
   jobTimeoutMinutes: 45,
   preferredGpu: "NVIDIA RTX PRO 6000 Blackwell Server Edition",
   executor: "pod",
-  runpodImage: "ghcr.io/replace-me/h3-production-worker:latest",
+  runpodImage: DEFAULT_RUNPOD_IMAGE,
   runpodProxyPort: 8000,
   serverlessEndpointId: "",
   serverlessHourlyRateUsd: 0,
@@ -99,9 +101,13 @@ export async function saveProject(path: string, project: H3Project): Promise<voi
 export async function loadProject(path: string): Promise<H3Project> {
   if (isTauriRuntime()) {
     const project = await invoke<H3Project>("load_project", { projectPath: path });
+    const savedImage = project.settings?.runpodImage ?? "";
+    const runpodImage = !savedImage || savedImage.includes("replace-me") || savedImage.endsWith(":latest")
+      ? DEFAULT_RUNPOD_IMAGE
+      : savedImage;
     return {
       ...project,
-      settings: { ...DEFAULT_SETTINGS, ...project.settings },
+      settings: { ...DEFAULT_SETTINGS, ...project.settings, runpodImage },
       assets: project.assets.map((asset) => ({
         ...asset,
         previewUrl: asset.previewUrl ? convertFileSrc(asset.previewUrl) : undefined,

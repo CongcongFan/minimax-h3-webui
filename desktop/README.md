@@ -55,7 +55,7 @@ gh workflow run publish-h3-worker.yml \
   -f version=h3-worker-v0.1.0
 ```
 
-发布完成后，应用源码必须锁定 `ghcr.io/onigirikiller/h3-production-worker@sha256:...`。普通用户不填写镜像地址，也不允许使用 `latest`。云端只公开带一次性令牌的 8000 端口，ComfyUI 仅监听容器内部的 `127.0.0.1:8188`。
+当前应用锁定的生产镜像是 `ghcr.io/congcongfan/h3-production-worker@sha256:405dfb1853821a5f47726fb12db306a38eb802b1e8d9223381aaeb8b30d31e78`。普通用户不填写镜像地址，也不允许使用 `latest`。云端只公开带一次性令牌的 8000 端口，ComfyUI 仅监听容器内部的 `127.0.0.1:8188`。
 
 ## RunPod 连接
 

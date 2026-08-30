@@ -1,6 +1,6 @@
 FROM pytorch/pytorch:2.9.1-cuda13.0-cudnn9-runtime@sha256:60f22fb80755fd0b470fb47928dbd55816aa9f847edd95cf43c93253507a9ddf
 
-LABEL org.opencontainers.image.source="https://github.com/onigirikiller/minimax-h3-webui" \
+LABEL org.opencontainers.image.source="https://github.com/CongcongFan/minimax-h3-webui" \
       org.opencontainers.image.description="MiniMax H3 按需生产执行器（不含模型与用户数据）" \
       org.opencontainers.image.licenses="MIT"
 
