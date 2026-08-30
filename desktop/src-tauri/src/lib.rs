@@ -321,7 +321,18 @@ fn runpod_client() -> Result<reqwest::Client, String> {
 async fn runpod_error(response: reqwest::Response) -> String {
     let status = response.status();
     let body = response.text().await.unwrap_or_default();
+    if matches!(status.as_u16(), 401 | 403) {
+        return format!(
+            "RunPod 未授权（{status}）。请在 RunPod Settings → API Keys 新建或编辑专用密钥，首次联调选择 All 权限；确认密钥已启用后，再粘贴并测试。应用不会显示或同步密钥。"
+        );
+    }
     format!("RunPod 请求失败（{status}）：{body}")
+}
+
+fn runpod_pod_permission_error(status: reqwest::StatusCode) -> String {
+    format!(
+        "RunPod 账户验证已通过，但 Pod 管理接口未授权（{status}）。当前密钥缺少 Pod 查询、创建或删除权限；请在 RunPod Settings → API Keys 将它改为 All，或新建一把 All 权限的专用密钥后重新测试。"
+    )
 }
 
 #[derive(Serialize)]
@@ -509,6 +520,9 @@ async fn runpod_test_connection() -> Result<ConnectionTest, String> {
         .await
         .map_err(|error| error.to_string())?;
     if !response.status().is_success() {
+        if matches!(response.status().as_u16(), 401 | 403) {
+            return Err(runpod_pod_permission_error(response.status()));
+        }
         return Err(runpod_error(response).await);
     }
     let pods: Value = response.json().await.map_err(|error| error.to_string())?;
@@ -1089,6 +1103,14 @@ mod tests {
     fn project_name_removes_path_characters() {
         assert_eq!(safe_project_name("广告/第一版:测试"), "广告 第一版 测试");
         assert_eq!(safe_project_name("   "), "H3 项目");
+    }
+
+    #[test]
+    fn pod_permission_error_explains_the_required_fix() {
+        let message = runpod_pod_permission_error(reqwest::StatusCode::UNAUTHORIZED);
+        assert!(message.contains("账户验证已通过"));
+        assert!(message.contains("All"));
+        assert!(message.contains("Pod"));
     }
 
     #[test]
