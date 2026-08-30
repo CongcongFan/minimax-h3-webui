@@ -219,13 +219,17 @@ class ComfyClient:
         except (ComfyError, KeyError):
             return ["simple", "normal", "beta"]
 
-    def has_h3_nodes(self) -> bool:
-        """True when this ComfyUI build ships the MiniMax H3 nodes."""
+    def has_node(self, class_type: str) -> bool:
+        """True when ComfyUI exposes the requested node class."""
         try:
-            info = self._get("/object_info/MiniMaxH3ImageToVideo")
+            info = self._get(f"/object_info/{class_type}")
             return bool(info)
         except ComfyError:
             return False
+
+    def has_h3_nodes(self) -> bool:
+        """True when this ComfyUI build ships the MiniMax H3 nodes."""
+        return self.has_node("MiniMaxH3ImageToVideo")
 
     # -- uploads / downloads -----------------------------------------------
 
@@ -462,15 +466,22 @@ def _common_tail(
     }
     graph["14"] = {
         "class_type": "CreateVideo",
-        "inputs": {"images": ["12", 0], "audio": ["13", 0], "fps": FPS},
+        "inputs": {
+            "images": ["12", 0],
+            "audio": ["13", 0],
+            "fps": FPS,
+            "bit_depth": 10,
+        },
     }
     graph["15"] = {
         "class_type": "SaveVideo",
         "inputs": {
             "video": ["14", 0],
             "filename_prefix": f"video/{prefix}",
-            "format": "auto",
-            "codec": "auto",
+            "format": "mp4",
+            "codec": "h264",
+            "codec.encoding": "re-encode",
+            "codec.encoding.crf": 14,
         },
     }
     return graph

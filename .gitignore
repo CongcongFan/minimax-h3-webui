@@ -30,3 +30,21 @@ flagged/
 .idea/
 .DS_Store
 Thumbs.db
+
+# H3 Production Studio desktop build
+desktop/node_modules/
+desktop/dist/
+desktop/src-tauri/target/
+desktop/src-tauri/gen/
+desktop/src-tauri/icons/android/
+desktop/src-tauri/icons/ios/
+desktop/src-tauri/icons/Square*.png
+desktop/src-tauri/icons/StoreLogo.png
+desktop/src-tauri/icons/icon.ico
+desktop/.vite/
+*.tsbuildinfo
+*.h3studio-backup
+
+# Local cloud/runtime secrets and generated artifacts
+.env
+cloud/gateway/runtime/

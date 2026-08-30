@@ -1,0 +1,7 @@
+.git
+desktop
+__pycache__
+*.pyc
+outputs
+*.mp4
+*.safetensors

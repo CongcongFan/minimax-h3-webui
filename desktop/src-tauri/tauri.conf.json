@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "H3 Production Studio",
+  "version": "0.1.0",
+  "identifier": "studio.h3.production",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "H3 Production Studio",
+        "width": 1540,
+        "height": 940,
+        "minWidth": 1180,
+        "minHeight": 760,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost https://*.runpod.net https://rest.runpod.io; img-src 'self' asset: http://asset.localhost blob: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com",
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["$HOME/**"]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app"],
+    "category": "Video",
+    "shortDescription": "MiniMax H3 按需视频生产工作台",
+    "longDescription": "本地保存项目与素材，按需启动 RunPod GPU 的 MiniMax H3 视频生产应用。",
+    "copyright": "Powered by MiniMax H3"
+  }
+}
