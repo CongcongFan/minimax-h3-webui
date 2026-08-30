@@ -727,7 +727,7 @@ export default function App() {
         allowedRegionsWithStock: number;
       }>("runpod_test_connection");
       setRunpodConnected(report.connected);
-      const summary = `连接正常 · 余额 $${report.clientBalance.toFixed(2)} · 运行中 Pod ${report.activePods} 个 · 许可地区有库存 ${report.allowedRegionsWithStock} 处`;
+      const summary = `连接正常 · 余额 $${report.clientBalance.toFixed(2)} · 账户中 Pod ${report.activePods} 个 · 许可地区有库存 ${report.allowedRegionsWithStock} 处`;
       setConnectionReport(summary);
       setNotice(summary);
     } catch (error) {
